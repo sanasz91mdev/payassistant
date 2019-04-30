@@ -167,7 +167,9 @@ class InquiryPageState extends State<InquiryPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: RaisedButton(
+                color: themeColor,
                 onPressed: () async {
+                  print('sana');
                   // bool isSendOTPSuccess = await doInquiry();
                   widget.paymentModel.updatePaymentInformation(
                       "012345678910",
@@ -178,7 +180,7 @@ class InquiryPageState extends State<InquiryPage> {
                   widget.onContinue();
                 },
                 child: Text(
-                  'CONTINUE',
+                  'CONTINUE',style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -249,6 +251,7 @@ class PayPageState extends State<PayPage> {
             hasError: false,
             maxLength: 4,
             counterText: '',
+            obscureText: true,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
