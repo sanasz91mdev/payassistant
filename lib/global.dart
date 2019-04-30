@@ -27,7 +27,7 @@ abstract class AuthConstants {
 abstract class Paths {
   static const String root = 'https://apigateway.bankalfalah.com/bankalfalah/sb';
   static const String walletsTitleFetch = 'wallet-title-fetch/WalletTitleFetch';
-
+  static const String billpayment = 'bill-payment/BillPaymentAccount';
 }
 
 
