@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "99607500703",
+    "firebase_url": "https://mymometmn.firebaseio.com",
+    "project_id": "mymometmn",
+    "storage_bucket": "mymometmn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99607500703:android:5e864cb592d93aaa",
+        "android_client_info": {
+          "package_name": "com.dfa.flutterchatdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99607500703-a9c50okd66qvsev9iol9madfjtj003is.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJjGx1pdb6g3DXOKTW_tRFKnCreFo1bwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99607500703-a9c50okd66qvsev9iol9madfjtj003is.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
