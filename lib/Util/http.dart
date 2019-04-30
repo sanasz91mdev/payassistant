@@ -119,16 +119,17 @@ class HttpDataSource implements DataSource {
     String query = _buildQuery(queryParameters);
     Uri uri = Uri.parse('$uriWithId${query.length > 0 ? '?$query' : ''}');
 
+    print(uri);
     var request = await client.getUrl(uri);
 
-    if (token != null) {
-      request.headers.add(HttpHeaders.AUTHORIZATION, 'Bearer $token');
-    }
+      request.headers.add('X-IBM-Client-Id', '8f6ef08a-cb83-4ea9-841a-671a53aab76b');
+    
 
     var response = await request.close();
 
     Map responseMap = await _extractJson(response).first;
-    errorHandler.checkAndThrowError(response.statusCode, responseMap, token);
+    //errorHandler.checkAndThrowError(response.statusCode, responseMap, token);
+    print(responseMap);
     return responseMap;
   }
 
@@ -139,7 +140,7 @@ class HttpDataSource implements DataSource {
     Uri uri = Uri.parse('$baseUrl/$entity${query.length > 0 ? '?$query' : ''}');
     var request = await client.getUrl(uri);
     if (token != null) {
-      request.headers.add(HttpHeaders.AUTHORIZATION, 'Bearer $token');
+      request.headers.add('', 'Bearer $token');
     }
 
     var response = await request.close();
