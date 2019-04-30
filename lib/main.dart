@@ -312,6 +312,7 @@ class MainScreenState extends State<MainScreen> {
         onWillPop: onBackPress,
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: themeColor,
         child: ImageIcon(
           AssetImage("images/ke.jpg"),
         ),
