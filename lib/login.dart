@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_demo/Registration/screen.dart';
 import 'package:flutter_chat_demo/const.dart';
 import 'package:flutter_chat_demo/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: themeColor,
       ),
-      home: LoginScreen(title: 'CHAT DEMO'),
+      home: RegistrationPage(),//LoginScreen(title: 'CHAT DEMO'),
       debugShowCheckedModeBanner: false,
     );
   }
