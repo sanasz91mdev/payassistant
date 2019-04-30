@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_demo/Payment/screen.dart';
 import 'package:flutter_chat_demo/Registration/screen.dart';
 import 'package:flutter_chat_demo/const.dart';
 import 'package:flutter_chat_demo/main.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: themeColor,
       ),
-      home: RegistrationPage(),//LoginScreen(title: 'CHAT DEMO'),
+      home: RegistrationPage(), //LoginScreen(title: 'CHAT DEMO'),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -59,7 +60,9 @@ class LoginScreenState extends State<LoginScreen> {
     if (isLoggedIn) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen(currentUserId: prefs.getString('id'))),
+        MaterialPageRoute(
+            builder: (context) =>
+                MainScreen(currentUserId: prefs.getString('id'))),
       );
     }
 
@@ -70,13 +73,13 @@ class LoginScreenState extends State<LoginScreen> {
 
   Future<Null> handleSignIn() async {
     prefs = await SharedPreferences.getInstance();
-     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => MainScreen(
-                  currentUserId: 'rivyU2AWJPIx1LvODrZD',
-                )),
-      );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MainScreen(
+                currentUserId: 'rivyU2AWJPIx1LvODrZD',
+              )),
+    );
     this.setState(() {
       isLoading = true;
     });
@@ -89,19 +92,26 @@ class LoginScreenState extends State<LoginScreen> {
       idToken: googleAuth.idToken,
     );
 
-    FirebaseUser firebaseUser = await firebaseAuth.signInWithCredential(credential);
+    FirebaseUser firebaseUser =
+        await firebaseAuth.signInWithCredential(credential);
 
     if (firebaseUser != null) {
       // Check is already sign up
-      final QuerySnapshot result =
-          await Firestore.instance.collection('users').where('id', isEqualTo: firebaseUser.uid).getDocuments();
+      final QuerySnapshot result = await Firestore.instance
+          .collection('users')
+          .where('id', isEqualTo: firebaseUser.uid)
+          .getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
       if (documents.length == 0) {
         // Update data to server if new user
         Firestore.instance
             .collection('users')
             .document(firebaseUser.uid)
-            .setData({'nickname': firebaseUser.displayName, 'photoUrl': firebaseUser.photoUrl, 'id': firebaseUser.uid});
+            .setData({
+          'nickname': firebaseUser.displayName,
+          'photoUrl': firebaseUser.photoUrl,
+          'id': firebaseUser.uid
+        });
 
         // Write data to local
         currentUser = firebaseUser;
