@@ -29,6 +29,7 @@ abstract class Paths {
   static const String walletsTitleFetch = 'wallet-title-fetch/WalletTitleFetch';
   static const String billpayment = 'bill-payment/BillPaymentAccount';
   static const String billinquiry = 'bill-enquiry/BillEnquiry';
+  static const String fundTransfer = 'wallettransfer2/WalletTransfer2';
 }
 
 abstract class UserIds {

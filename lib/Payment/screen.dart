@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_demo/CustomWidgets/custom_text_field.dart';
+import 'package:flutter_chat_demo/Payment/model.dart';
+import 'package:flutter_chat_demo/Util/dialog.dart';
 import 'package:flutter_chat_demo/const.dart';
+import 'package:flutter_chat_demo/global.dart';
 
 class PaymentData {
   String identifier;
@@ -15,6 +18,7 @@ class PaymentData {
 
   void updatePaymentInformation(String id, String amount,
       String amountAfterDueDate, String dueDate, bool isSendOTPSuccess) {
+        print('consumer number is:'+id);
     this.identifier = id;
     this.amount = amount;
     this.amountAfterDueDate = amountAfterDueDate;
@@ -170,9 +174,9 @@ class InquiryPageState extends State<InquiryPage> {
                 color: themeColor,
                 onPressed: () async {
                   print('sana');
-                  // bool isSendOTPSuccess = await doInquiry();
+                  // var doInquiry = await doInquiry();
                   widget.paymentModel.updatePaymentInformation(
-                      "012345678910",
+                      _identifierController.text,
                       "2233",
                       "2255",
                       "15-05-2019",
@@ -208,6 +212,8 @@ class PayPageState extends State<PayPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('got number');
+    print(widget.paymentModel.identifier);
     return Form(
       key: _formKey,
       child: Expanded(
@@ -271,9 +277,10 @@ class PayPageState extends State<PayPage> {
                 RaisedButton(
                   color: themeColor,
                   onPressed: () {
+                    _doPay();                    
                     print("SUBMIT");
                   },
-                  child: Text('PAYMENT'),
+                  child: Text('PAY'),
                   textColor: Colors.white,
                 ),
               ],
@@ -283,7 +290,39 @@ class PayPageState extends State<PayPage> {
       ),
     );
   }
+
+ Future<void> _doPay() async {
+
+    try {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => AlertDialog(
+              content: ListTile(
+                leading: CircularProgressIndicator(),
+                title: Text('Please wait'),
+              ),
+            ),
+      );
+
+  BillPaymentApi paymentApi = new BillPaymentApi(httpDataSource,authenticator.token);
+  var response = await paymentApi.payBill('KESC', '00311005977522', '03242510861', '100', '122334');
+
+      Navigator.of(context).pop();
+      await showAlertDialog(context, 'Payment', response.message);
+      Navigator.of(context).pop();
+    } catch (exception) {
+      await showAlertDialog(context, 'Payment',
+          '${exception.message}');
+      Navigator.of(context).pop();
+    }
+  }
+
 }
+
+
+ 
+  
 
 class Messages {
   final BuildContext context;
