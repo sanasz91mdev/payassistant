@@ -69,7 +69,7 @@ class RegistrationPageState extends State<RegistrationPage> {
       );
 
       try {
-            print('hit1');
+        print('hit1');
         final RegistrationApi api =
             new RegistrationApi(httpDataSource, authenticator.sessionToken);
 
@@ -86,12 +86,16 @@ class RegistrationPageState extends State<RegistrationPage> {
 
       message = result.message;
       await showAlertDialog(context, title, message);
-            Navigator.push(
-        context,
-        new MaterialPageRoute(
-          builder: (BuildContext context) => new MainScreen(currentUserId: 'rivyU2AWJPIx1LvODrZD',),
-        ),
-      );
+      if (!message.contains('not found')) {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (BuildContext context) => new MainScreen(
+                  currentUserId: 'rivyU2AWJPIx1LvODrZD',
+                ),
+          ),
+        );
+      }
     } catch (exception) {
       await showAlertDialog(context, title, exception.message);
     }

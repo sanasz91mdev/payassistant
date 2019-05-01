@@ -30,7 +30,7 @@ class RegistrationApi {
         title: dataItems['accountTitle'],
         code: data['code'],
         message: response == '00'
-            ? "User " + dataItems['accountTitle'] + " registered successfully"
+            ? "Bank Alfalah wallet for user " + dataItems['accountTitle'] + " registered successfully."
             : "Could not process your request");
 
     return responseFetch;
