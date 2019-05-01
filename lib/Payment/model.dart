@@ -8,9 +8,9 @@ class BillPaymentApi {
   BillPaymentApi(this.dataSource, this.token);
 
   Future<BillPaymentResponse> payBill(String company, String consumer, String wallet, String amount, String refNo) async {
-    print('hit');
+    print('hit pay');
     Map data = await dataSource
-    .get('${Paths.billpayment}'+"CompanyName="+ company +"&ConsumerNumber="+ consumer +"&AccountNumber="+ wallet +"&Amount="+ amount +"&ReferenceNumber=122334", token: token);
+    .get('${Paths.billpayment}?'+"CompanyName="+ company +"&ConsumerNumber="+ consumer +"&AccountNumber="+ wallet +"&Amount="+ amount +"&ReferenceNumber=122334", token: token);
         //.get('${Paths.billpayment}'+"CompanyName=LESCO&ConsumerNumber=00311005977522&AccountNumber=03242510861&Amount=10&ReferenceNumber=122334", token: token);
 
     var dataNested = data['Response'];
