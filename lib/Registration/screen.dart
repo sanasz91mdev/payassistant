@@ -91,7 +91,7 @@ class RegistrationPageState extends State<RegistrationPage> {
           context,
           new MaterialPageRoute(
             builder: (BuildContext context) => new MainScreen(
-                  currentUserId: 'rivyU2AWJPIx1LvODrZD',
+                  currentUserId: UserIds.currentUser,
                 ),
           ),
         );

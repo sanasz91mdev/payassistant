@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_demo/global.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_chat_demo/CustomWidgets/custom_text_field.dart';
 import 'package:flutter_chat_demo/const.dart';
@@ -100,6 +101,7 @@ class ChatScreenState extends State<ChatScreen> {
 
   readLocal() async {
     prefs = await SharedPreferences.getInstance();
+    prefs.setString('id', UserIds.currentUser);
     id = prefs.getString('id') ?? '';
     if (id.hashCode <= peerId.hashCode) {
       groupChatId = '$id-$peerId';
@@ -250,6 +252,7 @@ class ChatScreenState extends State<ChatScreen> {
 
       Firestore.instance.runTransaction((transaction) async {
         await transaction.set(
+          //
           documentReference,
           {
             'idFrom': id,

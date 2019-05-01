@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_demo/Payment/screen.dart';
 import 'package:flutter_chat_demo/Registration/screen.dart';
 import 'package:flutter_chat_demo/const.dart';
+import 'package:flutter_chat_demo/global.dart';
 import 'package:flutter_chat_demo/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -77,7 +78,7 @@ class LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(
           builder: (context) => MainScreen(
-                currentUserId: 'rivyU2AWJPIx1LvODrZD',
+                currentUserId: UserIds.currentUser,
               )),
     );
     this.setState(() {
