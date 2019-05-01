@@ -16,10 +16,10 @@ class FundTransferApi {
         token: token);
     //.get('${Paths.billpayment}'+"CompanyName=LESCO&ConsumerNumber=00311005977522&AccountNumber=03242510861&Amount=10&ReferenceNumber=122334", token: token);
 
-    var dataNested = data['Response'];
+    List dataNested = data['data'];
     print(dataNested);
 
-    var dataItems = dataNested['data'];
+    var dataItems = dataNested.first;
     print(dataItems);
 
     FundTransferResponse responseFetch = new FundTransferResponse(
@@ -30,6 +30,8 @@ class FundTransferApi {
             dataItems['transactionReference'] +
             ", Remaining balance: PKR " +
             dataItems['availableAmount']);
+
+            print(responseFetch);
 
     return responseFetch;
   }

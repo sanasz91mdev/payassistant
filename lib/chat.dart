@@ -763,6 +763,7 @@ class _AmountPickerDialogState extends State<AmountPickerDialog> {
       FundTransferApi paymentApi =
           new FundTransferApi(httpDataSource, authenticator.token);
       var response = await paymentApi.fundTransfer(_amount.round().toString());
+      print(response);
 
       Navigator.of(context).pop();
       await showAlertDialog(context, 'Transfer', response.message);
@@ -775,53 +776,56 @@ class _AmountPickerDialogState extends State<AmountPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 96, bottom: 96),
-      child: AlertDialog(
-        title: Text('Select amount'),
-        content: Container(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 32.0),
-              child: Text(
-                'PKR ' + _amount.round().toString(),
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 88, bottom: 88),
+        child: AlertDialog(
+          title: Text('Select amount'),
+          content: Container(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: Text(
+                  'PKR ' + _amount.round().toString(),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Slider(
-              value: _amount,
-              label: _amount.round().toString(),
-              min: 0,
-              max: 100,
-              divisions: 20,
-              onChanged: (value) {
-                setState(() {
-                  _amount = value;
-                });
+              Slider(
+                value: _amount,
+                label: _amount.round().toString(),
+                min: 0,
+                max: 100,
+                divisions: 20,
+                onChanged: (value) {
+                  setState(() {
+                    _amount = value;
+                  });
+                },
+              ),
+              CustomTextField(
+                hasError: false,
+                icon: Icons.lock,
+                keyboardType: TextInputType.number,
+                hintText: 'enter pin',
+                labelText: "MPIN",
+                maxLength: 4,
+              ),
+            ],
+          )),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                // Use the second argument of Navigator.pop(...) to pass
+                // back a result to the page that opened the dialog
+                Navigator.pop(context, _amount);
+                _doTransfer();
               },
-            ),
-            CustomTextField(
-              icon: Icons.person,
-              keyboardType: TextInputType.number,
-              hintText: 'enter pin',
-              labelText: "MPIN",
-              maxLength: 4,
-            ),
+              child: Text('SEND'),
+            )
           ],
-        )),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              // Use the second argument of Navigator.pop(...) to pass
-              // back a result to the page that opened the dialog
-              Navigator.pop(context, _amount);
-              _doTransfer();
-            },
-            child: Text('SEND'),
-          )
-        ],
+        ),
       ),
     );
   }

@@ -123,6 +123,7 @@ class HttpDataSource implements DataSource {
     var request = await client.getUrl(uri);
 
       request.headers.add('X-IBM-Client-Id', '6d6d9f79-9e97-46ce-ba5e-b1a48b019e1d');
+      request.headers.add('X-IBM-Client-Secret', 'vG7lM5uV1eP0hI5qA1qX4rU3lN5uR6eG7vN1sA5wX6pB2sD8lH');
     
 
     var response = await request.close();
