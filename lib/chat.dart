@@ -73,6 +73,7 @@ class ChatScreenState extends State<ChatScreen> {
   final TextEditingController amountController = new TextEditingController();
   final ScrollController listScrollController = new ScrollController();
   final FocusNode focusNode = new FocusNode();
+  double _sliderValue;
 
   @override
   void initState() {
@@ -85,6 +86,7 @@ class ChatScreenState extends State<ChatScreen> {
     isShowSticker = false;
     isShowAmount = false;
     imageUrl = '';
+    _sliderValue = 5;
 
     readLocal();
   }
@@ -134,90 +136,32 @@ class ChatScreenState extends State<ChatScreen> {
   void getAmount() {
     // Hide keyboard when amount field appear
     focusNode.unfocus();
-    setState(() {
-      _showDialog();
-      isShowAmount = !isShowAmount;
-    });
+    onSendAmount();
   }
 
-  void _showDialog() {
-    // flutter defined function
-    showDialog(
+  void onSendAmount() {
+    print('Amount sent');
+    _showAmountPickerDialog();
+  }
+
+    void _showAmountPickerDialog() async {
+    // <-- note the async keyword here
+
+    // this will contain the result from Navigator.pop(context, result)
+    final selectedAmount = await showDialog<double>(
       context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return Padding(
-          padding: const EdgeInsets.only(top: 120.0, bottom: 240.0),
-          child: AlertDialog(
-            title: new Text("Transfer"),
-            content: Column(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.account_circle),
-                    labelText: 'Enter amount',
-                  ),
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              // usually buttons at the bottom of the dialog
-              DialogButton(
-                width: 250,
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Close",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              )
-            ],
-          ),
-        );
-      },
+      builder: (context) => AmountPickerDialog(initialAmount: _sliderValue),
     );
-  }
 
-  void buildAmountField() {
-    // Alert(
-    //     context: context,
-    //     title: "LOGIN",
-    //     content: Column(
-    //       children: <Widget>[
-    //         TextField(
-    //           decoration: InputDecoration(
-    //             icon: Icon(Icons.account_circle),
-    //             labelText: 'Username',
-    //           ),
-    //         ),
-    //         TextField(
-    //           obscureText: true,
-    //           decoration: InputDecoration(
-    //             icon: Icon(Icons.lock),
-    //             labelText: 'Password',
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //     buttons: [
-    //       DialogButton(
-    //         onPressed: () => Navigator.pop(context),
-    //         child: Text(
-    //           "LOGIN",
-    //           style: TextStyle(color: Colors.white, fontSize: 20),
-    //         ),
-    //       )
-    //     ]).show();
-    // return SizedBox(height: 50.0,
-    //   child: TextField(
-    //     style: TextStyle(color: primaryColor, fontSize: 15.0),
-    //     controller: amountController,
-    //     focusNode: focusNode,
-    //     decoration: InputDecoration.collapsed(
-    //               hintText: 'Enter amount',
-    //               hintStyle: TextStyle(color: greyColor),
-    //             ),
-    //   ),
-    // );
+    // execution of this code continues when the dialog was closed (popped)
+
+    // note that the result can also be null, so check it
+    // (back button or pressed outside of the dialog)
+    if (selectedAmount != null) {
+      setState(() {
+        _sliderValue = selectedAmount;
+      });
+    }
   }
 
   Future uploadFile() async {
@@ -268,10 +212,6 @@ class ChatScreenState extends State<ChatScreen> {
     } else {
       Fluttertoast.showToast(msg: 'Nothing to send');
     }
-  }
-
-  void onSendAmount() {
-    print('Amount sent');
   }
 
   Widget buildItem(int index, DocumentSnapshot document) {
@@ -691,7 +631,7 @@ class ChatScreenState extends State<ChatScreen> {
             child: new Container(
               margin: new EdgeInsets.symmetric(horizontal: 1.0),
               child: new IconButton(
-                icon: new Icon(Icons.swap_horiz),
+                icon: new Icon(Icons.monetization_on),
                 onPressed: getAmount,
                 color: primaryColor,
               ),
@@ -781,6 +721,58 @@ class ChatScreenState extends State<ChatScreen> {
                 }
               },
             ),
+    );
+  }
+}
+
+class AmountPickerDialog extends StatefulWidget {
+  /// initial selection for the slider
+  final double initialAmount;
+
+  const AmountPickerDialog({Key key, this.initialAmount}) : super(key: key);
+
+  @override
+  _AmountPickerDialogState createState() => _AmountPickerDialogState();
+}
+
+class _AmountPickerDialogState extends State<AmountPickerDialog> {
+  /// current selection of the slider
+  double _amount;
+
+  @override
+  void initState() {
+    super.initState();
+    _amount = widget.initialAmount;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Select amount'),
+      content: Container(
+        child: Slider(
+          value: _amount,
+          label: _amount.round().toString(),
+          min: 0,
+          max: 100,
+          divisions: 20,
+          onChanged: (value) {
+            setState(() {
+              _amount = value;
+            });
+          },
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            // Use the second argument of Navigator.pop(...) to pass
+            // back a result to the page that opened the dialog
+            Navigator.pop(context, _amount);
+          },
+          child: Text('SEND'),
+        )
+      ],
     );
   }
 }
