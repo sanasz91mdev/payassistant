@@ -144,7 +144,7 @@ class ChatScreenState extends State<ChatScreen> {
     _showAmountPickerDialog();
   }
 
-    void _showAmountPickerDialog() async {
+  void _showAmountPickerDialog() async {
     // <-- note the async keyword here
 
     // this will contain the result from Navigator.pop(context, result)
@@ -747,32 +747,46 @@ class _AmountPickerDialogState extends State<AmountPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Select amount'),
-      content: Container(
-        child: Slider(
-          value: _amount,
-          label: _amount.round().toString(),
-          min: 0,
-          max: 100,
-          divisions: 20,
-          onChanged: (value) {
-            setState(() {
-              _amount = value;
-            });
-          },
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 96, bottom: 96),
+      child: AlertDialog(
+        title: Text('Select amount'),
+        content: Container(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 32.0),
+              child: Text(
+                'PKR ' + _amount.round().toString(),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Slider(
+              value: _amount,
+              label: _amount.round().toString(),
+              min: 0,
+              max: 100,
+              divisions: 20,
+              onChanged: (value) {
+                setState(() {
+                  _amount = value;
+                });
+              },
+            ),
+          ],
+        )),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              // Use the second argument of Navigator.pop(...) to pass
+              // back a result to the page that opened the dialog
+              Navigator.pop(context, _amount);
+            },
+            child: Text('SEND'),
+          )
+        ],
       ),
-      actions: <Widget>[
-        FlatButton(
-          onPressed: () {
-            // Use the second argument of Navigator.pop(...) to pass
-            // back a result to the page that opened the dialog
-            Navigator.pop(context, _amount);
-          },
-          child: Text('SEND'),
-        )
-      ],
     );
   }
 }
