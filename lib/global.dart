@@ -28,6 +28,7 @@ abstract class Paths {
   static const String root = 'https://apigateway.bankalfalah.com/bankalfalah/sb';
   static const String walletsTitleFetch = 'wallet-title-fetch/WalletTitleFetch';
   static const String billpayment = 'bill-payment/BillPaymentAccount';
+  static const String billinquiry = 'bill-enquiry/BillEnquiry';
   static const String fundTransfer = 'wallettransfer2/WalletTransfer2';
 }
 
