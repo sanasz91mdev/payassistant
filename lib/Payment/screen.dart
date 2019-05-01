@@ -18,6 +18,7 @@ class PaymentData {
 
   void updatePaymentInformation(String id, String amount,
       String amountAfterDueDate, String dueDate, bool isSendOTPSuccess) {
+        print('consumer number is:'+id);
     this.identifier = id;
     this.amount = amount;
     this.amountAfterDueDate = amountAfterDueDate;
@@ -173,9 +174,9 @@ class InquiryPageState extends State<InquiryPage> {
                 color: themeColor,
                 onPressed: () async {
                   print('sana');
-                  // bool isSendOTPSuccess = await doInquiry();
+                  // var doInquiry = await doInquiry();
                   widget.paymentModel.updatePaymentInformation(
-                      "012345678910",
+                      _identifierController.text,
                       "2233",
                       "2255",
                       "15-05-2019",
@@ -211,6 +212,8 @@ class PayPageState extends State<PayPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('got number');
+    print(widget.paymentModel.identifier);
     return Form(
       key: _formKey,
       child: Expanded(
