@@ -27,7 +27,7 @@ class BillPaymentApi {
         paidAmount: dataItems['AmountPaid'],
         message: response == '00'
             ? "Bill Payment Successful for "+ dataItems['CompanyName']
-            : "Could not process your request");
+            : "Could not process your request, please try later");
 
     return responseFetch;
   }
