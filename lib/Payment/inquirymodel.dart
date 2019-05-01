@@ -12,7 +12,7 @@ class BillInquiryApi {
     Map data = await dataSource
     .get('${Paths.billinquiry}'+"?CompanyName="+ company +"&ConsumerNumber="+ consumer, token: token);
         
-    var dataNested = data['Bill Enquiry'];
+    var dataNested = data['BillEnquiry'];
     print(dataNested);
 
     var dataItems = dataNested['Response'];

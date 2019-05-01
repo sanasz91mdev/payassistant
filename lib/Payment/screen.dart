@@ -166,10 +166,11 @@ class InquiryPageState extends State<InquiryPage> {
 
   BillInquiryApi inquiryApi = new BillInquiryApi(httpDataSource,authenticator.token);
   var response = await inquiryApi.inquireBill('KESC', '00311005977522');
+  print('response is');
+  print(response);
 
       Navigator.of(context).pop();
-      await showAlertDialog(context, 'Payment', response.message);
-      Navigator.of(context).pop();
+     // await showAlertDialog(context, 'Payment', response.message);
       
       return response;
     } catch (exception) {
