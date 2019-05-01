@@ -71,7 +71,7 @@ class PaymentPageState extends State<PaymentPage> {
     return AppBar(
       backgroundColor: Colors.white,
       title: Text(
-        'Payment',
+        'Bill Payment',
         style: TextStyle(
           color: Colors.black,
         ),

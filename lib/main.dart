@@ -313,9 +313,7 @@ class MainScreenState extends State<MainScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: themeColor,
-        child: ImageIcon(
-          AssetImage("images/ke.jpg"),
-        ),
+        child: Icon(Icons.receipt),
         onPressed: () {
           Navigator.push(
             context,

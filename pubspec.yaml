@@ -24,17 +24,29 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
-     - images/img_not_available.jpeg
-     - images/mimi1.gif
-     - images/mimi2.gif
-     - images/mimi3.gif
-     - images/mimi4.gif
-     - images/mimi5.gif
-     - images/mimi6.gif
-     - images/mimi7.gif
-     - images/mimi8.gif
-     - images/mimi9.gif
-     - images/mimi9.gif
-     - images/ke.jpg
+   - images/
+   - images/img_not_available.jpeg
+   - images/mimi1.gif
+   - images/mimi2.gif
+   - images/mimi3.gif
+   - images/mimi4.gif
+   - images/mimi5.gif
+   - images/mimi6.gif
+   - images/mimi7.gif
+   - images/mimi8.gif
+   - images/mimi9.gif
+   - images/mimi9.gif
+   - images/ke.jpg
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
