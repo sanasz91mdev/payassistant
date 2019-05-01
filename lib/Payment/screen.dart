@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_demo/CustomWidgets/custom_text_field.dart';
 import 'package:flutter_chat_demo/Payment/model.dart';
+import 'package:flutter_chat_demo/Payment/inquirymodel.dart';
 import 'package:flutter_chat_demo/Util/dialog.dart';
 import 'package:flutter_chat_demo/const.dart';
 import 'package:flutter_chat_demo/global.dart';
@@ -149,6 +150,35 @@ class InquiryPageState extends State<InquiryPage> {
   final FocusNode _identifierFocusNode = FocusNode();
   bool isConsumerNumberRequired = false;
 
+  Future<BillInquiryResponse> doInquiry() async{
+
+    try {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => AlertDialog(
+              content: ListTile(
+                leading: CircularProgressIndicator(),
+                title: Text('Please wait'),
+              ),
+            ),
+      );
+
+  BillInquiryApi inquiryApi = new BillInquiryApi(httpDataSource,authenticator.token);
+  var response = await inquiryApi.inquireBill('KESC', '00311005977522');
+
+      Navigator.of(context).pop();
+      await showAlertDialog(context, 'Payment', response.message);
+      Navigator.of(context).pop();
+      
+      return response;
+    } catch (exception) {
+      await showAlertDialog(context, 'Payment',
+          '${exception.message}');
+      Navigator.of(context).pop();
+    }
+    return new BillInquiryResponse();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -174,12 +204,12 @@ class InquiryPageState extends State<InquiryPage> {
                 color: themeColor,
                 onPressed: () async {
                   print('sana');
-                  // var doInquiry = await doInquiry();
+                  var response = await doInquiry();
                   widget.paymentModel.updatePaymentInformation(
                       _identifierController.text,
-                      "2233",
-                      "2255",
-                      "15-05-2019",
+                      response.paymentAmount,
+                      response.duedateAmount,
+                      response.dueDate,
                       true);
                   widget.onContinue();
                 },
