@@ -776,6 +776,7 @@ class _AmountPickerDialogState extends State<AmountPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
+    String msg = '';
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(top: 88, bottom: 88),
@@ -809,18 +810,38 @@ class _AmountPickerDialogState extends State<AmountPickerDialog> {
                 icon: Icons.lock,
                 keyboardType: TextInputType.number,
                 hintText: 'enter pin',
-                labelText: "MPIN",
+                labelText: "PIN",
                 maxLength: 4,
+                obscureText: true,
               ),
             ],
           )),
           actions: <Widget>[
             FlatButton(
-              onPressed: () {
+              onPressed: () async {
                 // Use the second argument of Navigator.pop(...) to pass
                 // back a result to the page that opened the dialog
-                Navigator.pop(context, _amount);
-                _doTransfer();
+                //_doTransfer();
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        content: ListTile(
+                          leading: CircularProgressIndicator(),
+                          title: Text('Please wait'),
+                        ),
+                      ),
+                );
+                
+                  FundTransferApi paymentApi =
+                      new FundTransferApi(httpDataSource, authenticator.token);
+                  var response =
+                      await paymentApi.fundTransfer(_amount.round().toString());
+                  print(response);
+
+                  Navigator.of(context).pop();
+                  Navigator.pop(context, _amount);
+                  await showAlertDialog(context, 'Transfer', response.message);             
               },
               child: Text('SEND'),
             )
