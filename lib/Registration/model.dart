@@ -9,8 +9,15 @@ class RegistrationApi {
 
   Future<TitleFetchResponse> doRegister(String walletId) async {
     print('hit');
-    Map data = await dataSource
-        .get('${Paths.walletsTitleFetch}'+"?WalletID=" + walletId, token: token);
+    Map data = await dataSource.get(
+        '${Paths.walletsTitleFetch}' + "?WalletID=" + walletId,
+        token: token);
+
+    String desc = data['description'];
+    if (desc.toLowerCase().contains('fail')) {
+      return new TitleFetchResponse(
+          title: 'nill', code: data['code'], message: "Wallet not found!");
+    }
 
     var dataNested = data['data'];
     print(dataNested);
