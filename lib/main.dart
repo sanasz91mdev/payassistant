@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_demo/Payment/screen.dart';
-import 'package:flutter_chat_demo/Registration/screen.dart';
 import 'package:flutter_chat_demo/login.dart';
 import 'package:flutter_chat_demo/chat.dart';
 import 'package:flutter_chat_demo/const.dart';
@@ -235,10 +234,11 @@ class MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: getDrawer(),
       appBar: AppBar(
         title: Text(
-          'MAIN',
-          style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+          'PAY CHAT',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -322,6 +322,89 @@ class MainScreenState extends State<MainScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Drawer getDrawer() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            child:
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              CircleAvatar(backgroundColor: themeColor,),
+            ]),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                    'https://previews.123rf.com/images/ylivdesign/ylivdesign1712/ylivdesign171200962/90997838-tablet-chatting-pattern-repeat-seamless-in-orange-color-for-any-design-vector-geometric-illustration.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                Icon(Icons.payment, color: themeColor),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text('Pay KESC Bill'),
+                ),
+              ],
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (BuildContext context) => new PaymentPage(),
+                ),
+              );
+            },
+          ),
+          Divider(
+            color: Colors.grey,
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                Icon(Icons.settings, color: themeColor),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text('Settings'),
+                ),
+              ],
+            ),
+            onTap: null,
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                Icon(Icons.help_outline,
+                    color: themeColor),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text('Help & Feedback'),
+                ),
+              ],
+            ),
+            onTap: null,
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                Icon(Icons.info, color: themeColor),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text('About'),
+                ),
+              ],
+            ),
+            onTap: null,
+          ),
+        ],
       ),
     );
   }
