@@ -35,7 +35,7 @@ abstract class Paths {
 abstract class UserIds {
   static const String taha = 'rivyU2AWJPIx1LvODrZD';
   static const String sana = 'y7Bujzh8hcUg8Tgj0q2I';
-  static const String currentUser = sana;
+  static const String currentUser = taha;
 }
 
 
