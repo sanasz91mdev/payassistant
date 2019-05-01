@@ -5,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_demo/FundTransfer/model.dart';
+import 'package:flutter_chat_demo/Util/dialog.dart';
 import 'package:flutter_chat_demo/global.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_chat_demo/CustomWidgets/custom_text_field.dart';
@@ -745,6 +747,32 @@ class _AmountPickerDialogState extends State<AmountPickerDialog> {
     _amount = widget.initialAmount;
   }
 
+  Future<void> _doTransfer() async {
+    try {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => AlertDialog(
+              content: ListTile(
+                leading: CircularProgressIndicator(),
+                title: Text('Please wait'),
+              ),
+            ),
+      );
+
+      FundTransferApi paymentApi =
+          new FundTransferApi(httpDataSource, authenticator.token);
+      var response = await paymentApi.fundTransfer(_amount.round().toString());
+
+      Navigator.of(context).pop();
+      await showAlertDialog(context, 'Transfer', response.message);
+      Navigator.of(context).pop();
+    } catch (exception) {
+      await showAlertDialog(context, 'Transfer', '${exception.message}');
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -774,6 +802,13 @@ class _AmountPickerDialogState extends State<AmountPickerDialog> {
                 });
               },
             ),
+            CustomTextField(
+              icon: Icons.person,
+              keyboardType: TextInputType.number,
+              hintText: 'enter pin',
+              labelText: "MPIN",
+              maxLength: 4,
+            ),
           ],
         )),
         actions: <Widget>[
@@ -782,6 +817,7 @@ class _AmountPickerDialogState extends State<AmountPickerDialog> {
               // Use the second argument of Navigator.pop(...) to pass
               // back a result to the page that opened the dialog
               Navigator.pop(context, _amount);
+              _doTransfer();
             },
             child: Text('SEND'),
           )
