@@ -7,26 +7,30 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_demo/Payment/screen.dart';
 import 'package:flutter_chat_demo/login.dart';
+import 'package:flutter_chat_demo/global.dart';
 import 'package:flutter_chat_demo/chat.dart';
 import 'package:flutter_chat_demo/const.dart';
 import 'package:flutter_chat_demo/settings.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_chat_demo/User/screen.dart';
 
 void main() => runApp(MyApp());
 
 class MainScreen extends StatefulWidget {
   final String currentUserId;
+  final String newUser;
 
-  MainScreen({Key key, @required this.currentUserId}) : super(key: key);
+  MainScreen({Key key, @required this.currentUserId,this.newUser}) : super(key: key);
 
   @override
-  State createState() => MainScreenState(currentUserId: currentUserId);
+  State createState() => MainScreenState(currentUserId: currentUserId, newUser: newUser);
 }
 
 class MainScreenState extends State<MainScreen> {
-  MainScreenState({Key key, @required this.currentUserId});
+  MainScreenState({Key key, @required this.currentUserId, this.newUser});
 
   final String currentUserId;
+  final String newUser;
 
   bool isLoading = false;
   List<Choice> choices = const <Choice>[
@@ -129,8 +133,11 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
-  Widget buildItem(BuildContext context, DocumentSnapshot document) {
+  Widget buildItem(BuildContext context, DocumentSnapshot document, String newUser) {
     if (document['id'] == currentUserId) {
+      return Container();
+    }
+    if(document['id'] == UserIds.newUser && newUser != "Y"){
       return Container();
     } else {
       return Container(
@@ -286,7 +293,7 @@ class MainScreenState extends State<MainScreen> {
                     return ListView.builder(
                       padding: EdgeInsets.all(10.0),
                       itemBuilder: (context, index) =>
-                          buildItem(context, snapshot.data.documents[index]),
+                          buildItem(context, snapshot.data.documents[index], newUser),
                       itemCount: snapshot.data.documents.length,
                     );
                   }
@@ -318,7 +325,7 @@ class MainScreenState extends State<MainScreen> {
           Navigator.push(
             context,
             new MaterialPageRoute(
-              builder: (BuildContext context) => new PaymentPage(),
+              builder: (BuildContext context) => new UserPage(),
             ),
           );
         },
